@@ -3,29 +3,29 @@ close all
 % clc
 
 %% configuration of OFDM symbols
-Ns=1920; %length of OFDM symbol
+Ns=9600; %length of OFDM symbol
 fs=48e3; % sampling rate
 inc=fs/Ns; % frequency spacing
 % length of cyclic prefix
-if Ns==480
-    Ncs=34;
-elseif Ns==960
+if Ns==960
     Ncs=67;
 elseif Ns==1920
-    Ncs=134;
-elseif Ns==3840
-    Ncs=269;
+    Ncs=135;
+elseif Ns==4800
+    Ncs=336;
+elseif Ns==9600
+    Ncs=672;
 end
 CP = Ncs;
 sym_len=Ns+Ncs; %length of symbol
 first_gap = 960; % zero interval between preamble and OFDM symbol
 tap_num = 560; % length of equalizer
 
-offset = 30 ; % 5m -120 10m -180
+offset = 40 ; % 5m -120 10m -180
 fre_offset = 20;
     
 % read the raw data
-save_name = '../Air_data/960';
+save_name = '../Air_data2/9600';
 folder_name = strcat(save_name,'/sync_file/');  % exp_lake
 
 % read the preamble
@@ -34,7 +34,7 @@ preamble = preamble';
 N_pre = length(preamble);
 
 % configuration of coding 
-code_rate = [1 2]; % code rate of convolution code
+code_rate = [2 3]; % code rate of convolution code
 code_in_differential  = 1; % whether apply the 
 mic = 'bottom'; % which mic to use for decodinig
 Repeat = 40; % expriment time
@@ -60,7 +60,7 @@ uncode_data_gt0  =dlmread(strcat('sending_signal/uncode_data_', int2str(code_rat
 
 visual_debug = 0;
 
-for r = 0:Repeat
+for r = 0
     if(~exist(strcat(folder_name, 'Alice-DataAdapt-',int2str(r),'.txt'), 'file'))
         continue
     end
@@ -299,8 +299,8 @@ for r = 0:Repeat
         figure(r+100)
         hold on
         plot(f_seq(1000/inc+1:4000/inc), SNR_phone)
-        xline(f_range(1))
-        xline(f_range(2))
+        %xline(f_range(1))
+        %xline(f_range(2))
         plot(f_seq, mag2db(signal_level))
         xlim([1000 5000])
         legend('SNR in phones', 'recv')
