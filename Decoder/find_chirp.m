@@ -108,7 +108,7 @@ function [new_locs] = find_chirp(dat,preamble, fs, r, visual_debug)
         subplot(212)
         plot(h)
         hold on
-        yline(noise_level)
+        %yline(noise_level)
         scatter(path1, h(path1), 'rx')
         scatter(path1_new, h(path1_new), 'g^')
     end
