@@ -1,6 +1,6 @@
 import os
 import sys
-dd='Air_data3/'+sys.argv[1]+'/'
+dd='Air_data4/'+sys.argv[1]+'/'
 for i in range(5):
 	elts = open (dd+'alice/Alice-ValidBins-'+str(i)+'.txt').read().split(',')
 	elts2 = open (dd+'alice/Alice-BitsAdapt_Padding-'+str(i)+'.txt').read().split(',')
