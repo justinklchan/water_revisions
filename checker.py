@@ -1,6 +1,6 @@
 import os
 import sys
-dd='Air_data5/'+sys.argv[1]+'/'
+dd='Air_data6/'+sys.argv[1]+'/'
 if sys.argv[1]=='960':
 	val=50
 elif sys.argv[1]=='1920':
@@ -27,3 +27,4 @@ for i in range(5):
 	print (len(elts),len(elts2),len(elts3),eq1,eq2,e,modresult)
 	print (elts4)
 	print (elts5)
+
