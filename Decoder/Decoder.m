@@ -3,7 +3,7 @@ close all
 % clc
 
 %% configuration of OFDM symbols
-Ns=9600; %length of OFDM symbol
+Ns=1920; %length of OFDM symbol
 fs=48e3; % sampling rate
 inc=fs/Ns; % frequency spacing
 % length of cyclic prefix
@@ -25,7 +25,7 @@ offset = 40 ; % 5m -120 10m -180
 fre_offset = 20;
     
 % read the raw data
-save_name = '../Air_data2/9600';
+save_name = '../Air_data3/1920';
 folder_name = strcat(save_name,'/sync_file/');  % exp_lake
 
 % read the preamble
@@ -34,7 +34,7 @@ preamble = preamble';
 N_pre = length(preamble);
 
 % configuration of coding 
-code_rate = [2 3]; % code rate of convolution code
+code_rate = [1 2]; % code rate of convolution code
 code_in_differential  = 1; % whether apply the 
 mic = 'bottom'; % which mic to use for decodinig
 Repeat = 40; % expriment time
@@ -58,13 +58,9 @@ encode_data_gt0  =dlmread(strcat('sending_signal/encode_data_', int2str(code_rat
 % sending data before encoding
 uncode_data_gt0  =dlmread(strcat('sending_signal/uncode_data_', int2str(code_rate(1)), '_', int2str(code_rate(2)), '.txt'));
 
-visual_debug = 0;
+visual_debug = 1;
 
 for r = 0
-    if(~exist(strcat(folder_name, 'Alice-DataAdapt-',int2str(r),'.txt'), 'file'))
-        continue
-    end
-    
     %% read the recv raw packets 
     recv_name =strcat('Bob-DataRx-',int2str(r),'-', mic,'.txt');
     rx_file = strcat(strcat(folder_name, recv_name));
@@ -90,21 +86,23 @@ for r = 0
 
     freq_name = strcat('Bob-FreqEsts-',int2str(r),'.txt');
     freq_name2 = strcat('Alice-FeedbackFreqs-',int2str(r),'.txt');
+    freq_name3 = strcat('Alice-ExactFeedbackFreqs-',int2str(r),'.txt');
     freq_est = dlmread(strcat(folder_name, freq_name));
     freq_send = dlmread(strcat(folder_name, freq_name2));
+    freq_exact = dlmread(strcat(folder_name, freq_name3));
     SNR_phone = dlmread(strcat(folder_name, 'Bob-SNRs-',int2str(r),'.txt'));
 
-    if(freq_est(1) ~= freq_send(1) || freq_est(2) ~= freq_send(2))
+    if(freq_send(1) == -1 || freq_send(2) == -1)
         disp(strcat('error frequenct and FSK in Packet:', int2str(r)))
         continue;
     end
     
     %% select the valid frequency bin
-    f_range = [freq_est(1), freq_est(2)]; %600
+    f_range = [freq_exact(1), freq_exact(end)]; %600
     bandwisth_pick = [bandwisth_pick f_range(2) - f_range(1) + inc];
 
     nbin1=round(f_range(1)/inc) + 1;
-    nbin2=round(f_range(2)/inc) +1;
+    nbin2=round(f_range(2)/inc) + 1;
     subcarrier_number = nbin2 - nbin1+ 1;
     valid_carrier = [];
     for i = nbin1:nbin2
@@ -188,6 +186,9 @@ for r = 0
 
         rx_fft = fft(rx);
         gt_fft = fft(gt);
+
+        figure
+        plot(abs(gt_fft))
 
         spect_rx = [spect_rx, rx_fft];
         spect_gt = [spect_gt, gt_fft];

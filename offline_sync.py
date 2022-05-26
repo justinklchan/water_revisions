@@ -50,6 +50,7 @@ def move_files(folder, pair_index):
         shutil.copy(folder+'/Alice-DataFull_1000_2500-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-DataFull_1000_2500-' + str(i)+'.txt')
         shutil.copy(folder+'/Alice-DataFull_1000_1500-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-DataFull_1000_1500-' + str(i)+'.txt')
         shutil.copy(folder+'/Alice-FeedbackFreqs-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-FeedbackFreqs-' + str(i)+'.txt')
+        shutil.copy(folder+'/Alice-ExactFeedbackFreqs-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-ExactFeedbackFreqs-' + str(i)+'.txt')
 
         #Bob data
         shutil.copy(folder+'/Bob-DataRx-' + str(Bob_index)+'-0-bottom.txt', folder+'/sync_file/Bob-DataRx-' + str(i)+'-bottom.txt')
@@ -60,7 +61,7 @@ def move_files(folder, pair_index):
         shutil.copy(folder+'/Bob-Sounding-' + str(Bob_index)+'-0-bottom.txt', folder+'/sync_file/Bob-Sounding-' + str(i)+'-bottom.txt')
 
 
-folder = 'Air_data2/9600'
+folder = 'Air_data3/1920'
 sounding_time = read_timstamp(folder + '/Alice-Sounding-log.txt')
 data_time = read_timstamp(folder + '/Alice-Data-log.txt')
 feedback_time = read_timstamp(folder + './Bob-Feedback-log.txt')
