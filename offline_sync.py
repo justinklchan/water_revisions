@@ -62,7 +62,7 @@ def move_files(folder, pair_index):
         shutil.copy(folder2+'/Bob-Sounding-' + str(Bob_index)+'-0-bottom.txt', folder+'/sync_file/Bob-Sounding-' + str(i)+'-bottom.txt')
 
 
-folder = 'Air_data6/1920'
+folder = 'Air_data6/9600'
 sounding_time = read_timstamp(folder + '/alice/Alice-Sounding-log.txt')
 data_time = read_timstamp(folder + '/alice/Alice-Data-log.txt')
 feedback_time = read_timstamp(folder + '/bob/Bob-Feedback-log.txt')

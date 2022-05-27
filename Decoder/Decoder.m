@@ -3,7 +3,7 @@ close all
 % clc
 
 %% configuration of OFDM symbols
-Ns=1920; %length of OFDM symbol
+Ns=9600; %length of OFDM symbol
 fs=48e3; % sampling rate
 inc=fs/Ns; % frequency spacing
 % length of cyclic prefix
@@ -19,13 +19,13 @@ end
 CP = Ncs;
 sym_len=Ns+Ncs; %length of symbol
 first_gap = 960; % zero interval between preamble and OFDM symbol
-tap_num = 560; % length of equalizer
+tap_num = 1200; % length of equalizer
 
 offset = 40 ; % 5m -120 10m -180
 fre_offset = 20;
     
 % read the raw data
-save_name = '../Air_data6/1920';
+save_name = strcat('../Air_data6/', int2str(Ns));
 folder_name = strcat(save_name,'/sync_file/');  % exp_lake
 
 % read the preamble
@@ -58,9 +58,9 @@ encode_data_gt0  =dlmread(strcat('sending_signal/encode_data_', int2str(code_rat
 % sending data before encoding
 uncode_data_gt0  =dlmread(strcat('sending_signal/uncode_data_', int2str(code_rate(1)), '_', int2str(code_rate(2)), '.txt'));
 
-visual_debug = 0;
+visual_debug = 1;
 
-for r = 0:10
+for r = 0
     if(~exist(strcat(folder_name, 'Alice-DataAdapt-',int2str(r),'.txt'), 'file'))
         continue
     end
@@ -128,7 +128,7 @@ for r = 0:10
     %%  ------------------------- begin demodulation ------------------------------
 
         
-    blocklen=length(preamble)+first_gap+ sym_len*(Nsyms); 
+    blocklen=length(preamble)+ first_gap + sym_len*(Nsyms); 
     pilots = 1;
     locs = find_chirp(dat,preamble,fs,r,visual_debug);
     
@@ -155,8 +155,8 @@ for r = 0:10
     block_fir = y_after_fir(delay_fir+1:end);
     block = block_fir;
     
-    pkg_idx = length(preamble) + first_gap +1;  % the index for the received symbols
-    gt_idx = length(preamble) + first_gap +1;  % the index for the received symbols
+    pkg_idx = length(preamble) + first_gap + CP + 1;  % the index for the received symbols
+    gt_idx = length(preamble) + first_gap + CP+1;  % the index for the received symbols
 
     
     if(visual_debug )
@@ -195,6 +195,7 @@ for r = 0:10
     for sym=1:Nsyms
         rx = block(pkg_idx-fre_offset: pkg_idx-fre_offset + Ns - 1);
         gt = sending_signal(gt_idx: gt_idx + Ns - 1);  
+        
 
         rx_fft = fft(rx);
         gt_fft = fft(gt);
@@ -296,7 +297,8 @@ for r = 0:10
         pkg_idx = pkg_idx + sym_len;
         gt_idx = gt_idx + sym_len;
     end
-        
+    
+%     visual_scatter( points_gt1, points_pred1, f_seq, valid_carrier)
         %% debug with the scatter plot image
 %         visual_scatter( points_gt, points_pred, f_seq, valid_carrier, 100+50*r);
 %         visual_scatter( points_gt1, points_pred1, f_seq, valid_carrier, 50*r+125);

@@ -90,13 +90,16 @@ function [new_locs] = find_chirp(dat,preamble, fs, r, visual_debug)
 %     plot(preamble)
 
 %     Y = fft(seg1);
-%     X = fft(preamble);
+%     X = fft(preamble');
 %     H = complex(zeros(N_pre,1));
 %     delta_f = fs/N_pre;
 %     begin_i = round(f_begin/delta_f);
 %     end_i = round(f_end/delta_f);
 %     H(begin_i:end_i) = Y(begin_i:end_i)./(X(begin_i:end_i));
 %     h = ifft(H);
+%     figure
+%     plot(abs(h))
+
 %     [ h, path1, path1_new, noise_level] = channe_look_back( h, 0.38, 5, 0);
 %     
 %     if(visual_debug)
