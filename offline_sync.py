@@ -26,45 +26,46 @@ def move_files(folder, pair_index):
         Alice_index = pair_index[i][0]
         Bob_index = pair_index[i][1]
         # Alice data
-
-        shutil.copy(folder+ '/Alice-BitsAdapt-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsAdapt-' + str(i)+'.txt')
-        shutil.copy(folder+ '/Alice-Bit_Fill_Adapt-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-Bit_Fill_Adapt-' + str(i)+'.txt')
-        shutil.copy(folder+ '/Alice-BitsAdapt_Padding-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsAdapt_Padding-' + str(i)+'.txt')
+        folder1 = folder + "/alice"
+        shutil.copy(folder1+ '/Alice-BitsAdapt-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsAdapt-' + str(i)+'.txt')
+        shutil.copy(folder1+ '/Alice-Bit_Fill_Adapt-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-Bit_Fill_Adapt-' + str(i)+'.txt')
+        shutil.copy(folder1+ '/Alice-BitsAdapt_Padding-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsAdapt_Padding-' + str(i)+'.txt')
         
         
-        shutil.copy(folder+'/Alice-BitsFull_1000_4000-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsFull_1000_4000-' + str(i)+'.txt')
-        shutil.copy(folder+ '/Alice-Bit_Fill_1000_4000-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-Bit_Fill_1000_4000-' + str(i)+'.txt')        
-        shutil.copy(folder+'/Alice-BitsFull_1000_4000_Padding-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsFull_1000_4000_Padding-' + str(i)+'.txt')
+        shutil.copy(folder1+'/Alice-BitsFull_1000_4000-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsFull_1000_4000-' + str(i)+'.txt')
+        shutil.copy(folder1+ '/Alice-Bit_Fill_1000_4000-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-Bit_Fill_1000_4000-' + str(i)+'.txt')        
+        shutil.copy(folder1+'/Alice-BitsFull_1000_4000_Padding-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsFull_1000_4000_Padding-' + str(i)+'.txt')
         
 
-        shutil.copy(folder+'/Alice-BitsFull_1000_2500-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsFull_1000_2500-' + str(i)+'.txt')
-        shutil.copy(folder+ '/Alice-Bit_Fill_1000_2500-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-Bit_Fill_1000_2500-' + str(i)+'.txt')
-        shutil.copy(folder+'/Alice-BitsFull_1000_2500_Padding-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsFull_1000_2500_Padding-' + str(i)+'.txt')
+        shutil.copy(folder1+'/Alice-BitsFull_1000_2500-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsFull_1000_2500-' + str(i)+'.txt')
+        shutil.copy(folder1+ '/Alice-Bit_Fill_1000_2500-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-Bit_Fill_1000_2500-' + str(i)+'.txt')
+        shutil.copy(folder1+'/Alice-BitsFull_1000_2500_Padding-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsFull_1000_2500_Padding-' + str(i)+'.txt')
 
-        shutil.copy(folder+'/Alice-BitsFull_1000_1500-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsFull_1000_1500-' + str(i)+'.txt')
-        shutil.copy(folder+ '/Alice-Bit_Fill_1000_1500-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-Bit_Fill_1000_1500-' + str(i)+'.txt')        
-        shutil.copy(folder+'/Alice-BitsFull_1000_1500_Padding-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsFull_1000_1500_Padding-' + str(i)+'.txt')
+        shutil.copy(folder1+'/Alice-BitsFull_1000_1500-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsFull_1000_1500-' + str(i)+'.txt')
+        shutil.copy(folder1+ '/Alice-Bit_Fill_1000_1500-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-Bit_Fill_1000_1500-' + str(i)+'.txt')        
+        shutil.copy(folder1+'/Alice-BitsFull_1000_1500_Padding-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-BitsFull_1000_1500_Padding-' + str(i)+'.txt')
 
-        shutil.copy(folder+'/Alice-DataAdapt-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-DataAdapt-' + str(i)+'.txt')
-        shutil.copy(folder+'/Alice-DataFull_1000_4000-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-DataFull_1000_4000-' + str(i)+'.txt')
-        shutil.copy(folder+'/Alice-DataFull_1000_2500-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-DataFull_1000_2500-' + str(i)+'.txt')
-        shutil.copy(folder+'/Alice-DataFull_1000_1500-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-DataFull_1000_1500-' + str(i)+'.txt')
-        shutil.copy(folder+'/Alice-FeedbackFreqs-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-FeedbackFreqs-' + str(i)+'.txt')
-        shutil.copy(folder+'/Alice-ExactFeedbackFreqs-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-ExactFeedbackFreqs-' + str(i)+'.txt')
+        shutil.copy(folder1+'/Alice-DataAdapt-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-DataAdapt-' + str(i)+'.txt')
+        shutil.copy(folder1+'/Alice-DataFull_1000_4000-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-DataFull_1000_4000-' + str(i)+'.txt')
+        shutil.copy(folder1+'/Alice-DataFull_1000_2500-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-DataFull_1000_2500-' + str(i)+'.txt')
+        shutil.copy(folder1+'/Alice-DataFull_1000_1500-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-DataFull_1000_1500-' + str(i)+'.txt')
+        shutil.copy(folder1+'/Alice-FeedbackFreqs-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-FeedbackFreqs-' + str(i)+'.txt')
+        shutil.copy(folder1+'/Alice-ExactFeedbackFreqs-' + str(Alice_index)+'.txt', folder+'/sync_file/Alice-ExactFeedbackFreqs-' + str(i)+'.txt')
 
         #Bob data
-        shutil.copy(folder+'/Bob-DataRx-' + str(Bob_index)+'-0-bottom.txt', folder+'/sync_file/Bob-DataRx-' + str(i)+'-bottom.txt')
-        shutil.copy(folder+'/Bob-DataRx-' + str(Bob_index)+'-0-top.txt',folder+ '/sync_file/Bob-DataRx-' + str(i)+'-top.txt')
-        shutil.copy(folder+'/Bob-FreqEsts-' + str(Bob_index)+'.txt', folder+'/sync_file/Bob-FreqEsts-' + str(i)+'.txt')
-        shutil.copy(folder+'/Bob-SNRs-' + str(Bob_index)+'.txt',folder+ '/sync_file/Bob-SNRs-' + str(i)+'.txt')
-        shutil.copy(folder+'/Bob-Sounding-' + str(Bob_index)+'-0-top.txt', folder+'/sync_file/Bob-Sounding-' + str(i)+'-top.txt')
-        shutil.copy(folder+'/Bob-Sounding-' + str(Bob_index)+'-0-bottom.txt', folder+'/sync_file/Bob-Sounding-' + str(i)+'-bottom.txt')
+        folder2 = folder + "/bob"
+        shutil.copy(folder2+'/Bob-DataRx-' + str(Bob_index)+'-0-bottom.txt', folder+'/sync_file/Bob-DataRx-' + str(i)+'-bottom.txt')
+        shutil.copy(folder2+'/Bob-DataRx-' + str(Bob_index)+'-0-top.txt',folder+ '/sync_file/Bob-DataRx-' + str(i)+'-top.txt')
+        shutil.copy(folder2+'/Bob-FreqEsts-' + str(Bob_index)+'.txt', folder+'/sync_file/Bob-FreqEsts-' + str(i)+'.txt')
+        shutil.copy(folder2+'/Bob-SNRs-' + str(Bob_index)+'.txt',folder+ '/sync_file/Bob-SNRs-' + str(i)+'.txt')
+        shutil.copy(folder2+'/Bob-Sounding-' + str(Bob_index)+'-0-top.txt', folder+'/sync_file/Bob-Sounding-' + str(i)+'-top.txt')
+        shutil.copy(folder2+'/Bob-Sounding-' + str(Bob_index)+'-0-bottom.txt', folder+'/sync_file/Bob-Sounding-' + str(i)+'-bottom.txt')
 
 
-folder = 'Air_data3/1920'
-sounding_time = read_timstamp(folder + '/Alice-Sounding-log.txt')
-data_time = read_timstamp(folder + '/Alice-Data-log.txt')
-feedback_time = read_timstamp(folder + './Bob-Feedback-log.txt')
+folder = 'Air_data6/1920'
+sounding_time = read_timstamp(folder + '/alice/Alice-Sounding-log.txt')
+data_time = read_timstamp(folder + '/alice/Alice-Data-log.txt')
+feedback_time = read_timstamp(folder + '/bob/Bob-Feedback-log.txt')
 
 y_feedback = np.ones(len(feedback_time))
 y_sounding = np.ones(len(sounding_time))

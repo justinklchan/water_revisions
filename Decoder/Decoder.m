@@ -25,16 +25,16 @@ offset = 40 ; % 5m -120 10m -180
 fre_offset = 20;
     
 % read the raw data
-save_name = '../Air_data3/1920';
+save_name = '../Air_data6/1920';
 folder_name = strcat(save_name,'/sync_file/');  % exp_lake
 
 % read the preamble
-preamble=dlmread('sending_signal/preamble')/30000;
+preamble=dlmread('sending_signal/naiser.txt')/30000;
 preamble = preamble';
 N_pre = length(preamble);
 
 % configuration of coding 
-code_rate = [1 2]; % code rate of convolution code
+code_rate = [2 3]; % code rate of convolution code
 code_in_differential  = 1; % whether apply the 
 mic = 'bottom'; % which mic to use for decodinig
 Repeat = 40; % expriment time
@@ -58,9 +58,12 @@ encode_data_gt0  =dlmread(strcat('sending_signal/encode_data_', int2str(code_rat
 % sending data before encoding
 uncode_data_gt0  =dlmread(strcat('sending_signal/uncode_data_', int2str(code_rate(1)), '_', int2str(code_rate(2)), '.txt'));
 
-visual_debug = 1;
+visual_debug = 0;
 
-for r = 0
+for r = 0:10
+    if(~exist(strcat(folder_name, 'Alice-DataAdapt-',int2str(r),'.txt'), 'file'))
+        continue
+    end
     %% read the recv raw packets 
     recv_name =strcat('Bob-DataRx-',int2str(r),'-', mic,'.txt');
     rx_file = strcat(strcat(folder_name, recv_name));
@@ -123,9 +126,17 @@ for r = 0
 
 
     %%  ------------------------- begin demodulation ------------------------------
+
+        
     blocklen=length(preamble)+first_gap+ sym_len*(Nsyms); 
     pilots = 1;
     locs = find_chirp(dat,preamble,fs,r,visual_debug);
+    
+        figure
+        hold on
+        plot(dat)
+        plot([locs, locs], [-1, 1])
+    
     idx=locs+1;
     filter_order = 96;
     if(blocklen +filter_order + tap_num + idx > length(dat))
@@ -147,6 +158,7 @@ for r = 0
     pkg_idx = length(preamble) + first_gap +1;  % the index for the received symbols
     gt_idx = length(preamble) + first_gap +1;  % the index for the received symbols
 
+    
     if(visual_debug )
         figure
         hold on
@@ -186,9 +198,6 @@ for r = 0
 
         rx_fft = fft(rx);
         gt_fft = fft(gt);
-
-        figure
-        plot(abs(gt_fft))
 
         spect_rx = [spect_rx, rx_fft];
         spect_gt = [spect_gt, gt_fft];
