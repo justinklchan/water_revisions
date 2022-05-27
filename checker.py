@@ -1,6 +1,6 @@
 import os
 import sys
-dd='Air_data6/'+sys.argv[1]+'/'
+dd='Air_data7/'+sys.argv[1]+'/'
 if sys.argv[1]=='960':
 	val=50
 elif sys.argv[1]=='1920':
@@ -13,8 +13,8 @@ for i in range(5):
 	elts = open (dd+'alice/Alice-ValidBins-'+str(i)+'.txt').read().split(',')
 	elts2 = open (dd+'alice/Alice-BitsAdapt_Padding-'+str(i)+'.txt').read().split(',')
 	elts3 = open (dd+'alice/Alice-BitsAdapt-'+str(i)+'.txt').read().split(',')
-	elts4 = open (dd+'alice/Alice-FeedbackFreqs-'+str(i)+'.txt').read().split('\n')
-	elts5 = open (dd+'bob/Bob-FreqEsts-'+str(i)+'.txt').read().split('\n')
+	elts4 = open (dd+'bob/Bob-FreqEsts-'+str(i)+'.txt').read().split('\n')
+	elts5 = open (dd+'alice/Alice-FeedbackFreqs-'+str(i)+'.txt').read().split('\n')
 	e = os.path.isfile (dd+'alice/Alice-ExactFeedbackFreqs-'+str(i)+'.txt')
 	elts6 = open (dd+'alice/Alice-ExactFeedbackFreqs-'+str(i)+'.txt').read().split('\n')
 	elts6=elts6[:len(elts6)-1]
