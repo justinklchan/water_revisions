@@ -1,6 +1,6 @@
 import os
 import sys
-dd='Air_data7/'+sys.argv[1]+'/'
+dd='Air_data10/'+sys.argv[1]+'/'
 if sys.argv[1]=='960':
 	val=50
 elif sys.argv[1]=='1920':
@@ -9,7 +9,7 @@ elif sys.argv[1]=='4800':
 	val=10
 elif sys.argv[1]=='9600':
 	val=5
-for i in range(5):
+for i in range(25):
 	elts = open (dd+'alice/Alice-ValidBins-'+str(i)+'.txt').read().split(',')
 	elts2 = open (dd+'alice/Alice-BitsAdapt_Padding-'+str(i)+'.txt').read().split(',')
 	elts3 = open (dd+'alice/Alice-BitsAdapt-'+str(i)+'.txt').read().split(',')
