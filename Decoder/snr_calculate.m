@@ -1,8 +1,8 @@
-function [snr_list] = snr_calculate(fft_rx, fft_tx, valid_carrier, if_norm)
+function [snr_list] = snr_calculate(fft_rx, fft_tx, valid_carrier,f_seq, if_norm)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
     snr_list = [];
-
+    visual_i = [];
     for i = valid_carrier
         send_sym = fft_tx(i, :);
         send_sym = send_sym./abs(send_sym);
@@ -21,15 +21,20 @@ function [snr_list] = snr_calculate(fft_rx, fft_tx, valid_carrier, if_norm)
         snr_list = [snr_list mag2db(SNR_i)/2];
 
         %% visualize the scatter plot
-%         data = recv_sym./send_sym;
-%         x = real(data);
-%         y = imag(data);
-% 
-%         figure(i+10)
-%         scatter(x, y)
-%         xlim([-2, 2])
-%         ylim([-2, 2])
-
+        data = recv_sym./send_sym;
+        x = real(data);
+        y = imag(data);
+        
+        if ismember(i, visual_i)
+            figure(i+220)
+            scatter(x, y)
+            hold on
+            scatter(x(1), y(1), 'rx')
+            
+            xlim([-2, 2])
+            ylim([-2, 2])
+            title(int2str(f_seq(i)))
+        end
 
 %         bit0_idx = find(real(send_sym)>0);
 %         bit1_idx = find(real(send_sym)<0);

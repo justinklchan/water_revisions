@@ -3,7 +3,7 @@ close all
 % clc
 
 %% configuration of OFDM symbols
-Ns=9600; %length of OFDM symbol
+Ns=4800; %length of OFDM symbol
 fs=48e3; % sampling rate
 inc=fs/Ns; % frequency spacing
 % length of cyclic prefix
@@ -19,17 +19,17 @@ end
 CP = Ncs;
 sym_len=Ns+Ncs; %length of symbol
 first_gap = 960; % zero interval between preamble and OFDM symbol
-tap_num = 1200; % length of equalizer
+tap_num = 960;%round(Ns*2/3); % length of equalizer 360
 
 offset = 40 ; % 5m -120 10m -180
 fre_offset = 20;
     
 % read the raw data
-save_name = strcat('../Air_data6/', int2str(Ns));
+save_name = strcat('../Ns/4800');
 folder_name = strcat(save_name,'/sync_file/');  % exp_lake
 
 % read the preamble
-preamble=dlmread('sending_signal/naiser.txt')/30000;
+preamble=dlmread('sending_signal/preamble')/30000;
 preamble = preamble';
 N_pre = length(preamble);
 
@@ -37,7 +37,7 @@ N_pre = length(preamble);
 code_rate = [2 3]; % code rate of convolution code
 code_in_differential  = 1; % whether apply the 
 mic = 'bottom'; % which mic to use for decodinig
-Repeat = 40; % expriment time
+Repeat = 80; % expriment time
 
 bandwisth_pick = [];
 Error_packets =0;
@@ -58,9 +58,9 @@ encode_data_gt0  =dlmread(strcat('sending_signal/encode_data_', int2str(code_rat
 % sending data before encoding
 uncode_data_gt0  =dlmread(strcat('sending_signal/uncode_data_', int2str(code_rate(1)), '_', int2str(code_rate(2)), '.txt'));
 
-visual_debug = 1;
-
-for r = 0
+visual_debug = 0;
+for r = 0:10
+    r
     if(~exist(strcat(folder_name, 'Alice-DataAdapt-',int2str(r),'.txt'), 'file'))
         continue
     end
@@ -95,7 +95,7 @@ for r = 0
     freq_exact = dlmread(strcat(folder_name, freq_name3));
     SNR_phone = dlmread(strcat(folder_name, 'Bob-SNRs-',int2str(r),'.txt'));
 
-    if(freq_send(1) == -1 || freq_send(2) == -1)
+    if(freq_send(1) == -1 || freq_send(2) == -1 ||  freq_send(2) == freq_send(1))
         disp(strcat('error frequenct and FSK in Packet:', int2str(r)))
         continue;
     end
@@ -132,10 +132,10 @@ for r = 0
     pilots = 1;
     locs = find_chirp(dat,preamble,fs,r,visual_debug);
     
-        figure
-        hold on
-        plot(dat)
-        plot([locs, locs], [-1, 1])
+%         figure
+%         hold on
+%         plot(dat)
+%         plot([locs, locs], [-1, 1])
     
     idx=locs+1;
     filter_order = 96;
@@ -146,9 +146,8 @@ for r = 0
     end
 
     %% band-pass filter 
-    filter_order = 96;
 %     wn = [(f_range(1)-200)/(fs/2), (f_range(2)+200)/(fs/2)];    
-    wn = [(1000-200)/(fs/2), (4000+200)/(fs/2)];    
+    wn = [(1000-300)/(fs/2), (4000+200)/(fs/2)];    
     b = fir1(filter_order, wn, 'bandpass');   
     y_after_fir=filter(b,1,block);
     delay_fir = filter_order/2;
@@ -157,7 +156,11 @@ for r = 0
     
     pkg_idx = length(preamble) + first_gap + CP + 1;  % the index for the received symbols
     gt_idx = length(preamble) + first_gap + CP+1;  % the index for the received symbols
-
+    
+    len_rx0 = length(preamble)+tap_num-1;
+    %preamble_tx = sending_signal(1+offset : length(preamble)+offset);
+    %preamble_rx = block_fir(1 : len_rx0);
+    
     
     if(visual_debug )
         figure
@@ -244,15 +247,23 @@ for r = 0
 
                 %% training of time 
                 g = equalizer_estimation_multiple(training_tx, training_rx, tap_num);
-
+                %g2 = equalizer_estimation_multiple(preamble_tx, preamble_rx, tap_num);
+                %g= g2;
                 if(visual_debug )
                     figure
                     subplot(211)
                     plot(training_tx)
                     subplot(212)
                     plot(training_rx)
+%                     figure
+%                     subplot(211)
+%                     plot(preamble_tx)
+%                     subplot(212)
+%                     plot(preamble_rx)
                     figure
                     plot(g)
+%                     hold on
+%                     plot(g2, '--')
                 end
                 
                 for t = 1:size(training_rx, 2)
@@ -311,8 +322,8 @@ for r = 0
         figure(r+100)
         hold on
         plot(f_seq(1000/inc+1:4000/inc), SNR_phone)
-        %xline(f_range(1))
-        %xline(f_range(2))
+        plot([f_range(1), f_range(1) ], [-10, 10], 'r--')
+        plot([f_range(2), f_range(2) ], [-10, 10], 'r--')
         plot(f_seq, mag2db(signal_level))
         xlim([1000 5000])
         legend('SNR in phones', 'recv')

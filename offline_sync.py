@@ -62,7 +62,7 @@ def move_files(folder, pair_index):
         shutil.copy(folder2+'/Bob-Sounding-' + str(Bob_index)+'-0-bottom.txt', folder+'/sync_file/Bob-Sounding-' + str(i)+'-bottom.txt')
 
 
-folder = 'Air_data6/9600'
+folder = 'Ns/4800'
 sounding_time = read_timstamp(folder + '/alice/Alice-Sounding-log.txt')
 data_time = read_timstamp(folder + '/alice/Alice-Data-log.txt')
 feedback_time = read_timstamp(folder + '/bob/Bob-Feedback-log.txt')
@@ -84,11 +84,14 @@ plt.subplot(212)
 plt.stem(feedback_time, y_feedback, 'b-o',label='feedback')
 plt.xlim([0, 130])
 plt.legend()
-
 interval = 5
+
+#print(feedback_time)
+#print(data_time)
 
 for i in range(0, len(feedback_time)):
     if((feedback_time[i] - data_time[0]) > interval or (feedback_time[i] - data_time[0]) < -interval): continue
+    print("-------------")
     data_time_new = np.array(data_time) + feedback_time[i] - data_time[0] 
     pair_index = []
 
@@ -104,7 +107,10 @@ for i in range(0, len(feedback_time)):
         min_difference = difference
         min_pair = pair_index
         min_offset = feedback_time[i] - data_time[0]
-    
+
+#for i in range(2, 20):
+#    min_pair.append([i, i])
+
 
 print(min_pair)
 plt.figure(2)
