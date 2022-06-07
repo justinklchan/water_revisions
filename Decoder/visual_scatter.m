@@ -27,6 +27,7 @@ function bers = visual_scatter( points_gt, points_pred, f_seq, valid_carrier)
             figure(100 + i)
             hold on
             ps_pred = ps_pred./range;
+            scatter(real(ps_pred(1)), imag(ps_pred(1)), 'k^')
             scatter(real(ps_pred(bit0_idx)), imag(ps_pred(bit0_idx)), 'bx');
             scatter(real(ps_pred(bit1_idx)), imag(ps_pred(bit1_idx)), 'ro');
             xlim([-1.5 1.5])

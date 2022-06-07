@@ -21,11 +21,11 @@ sym_len=Ns+Ncs; %length of symbol
 first_gap = 960; % zero interval between preamble and OFDM symbol
 tap_num = 960;%round(Ns*2/3); % length of equalizer 360
 
-offset = 40 ; % 5m -120 10m -180
+offset = 20 ; % 5m -120 10m -180
 fre_offset = 20;
     
 % read the raw data
-save_name = strcat('../Ns/4800');
+save_name = strcat('../Air_data20/4800');
 folder_name = strcat(save_name,'/sync_file/');  % exp_lake
 
 % read the preamble
@@ -40,7 +40,7 @@ mic = 'bottom'; % which mic to use for decodinig
 Repeat = 80; % expriment time
 
 bandwisth_pick = [];
-Error_packets =0;
+Error_packets = 0;
 Valid_Packets = 0;
 
 Error_bits_time_uncoded = 0;
@@ -62,6 +62,7 @@ visual_debug = 0;
 for r = 0:10
     r
     if(~exist(strcat(folder_name, 'Alice-DataAdapt-',int2str(r),'.txt'), 'file'))
+        disp(strcat('No such file!:  ', folder_name, 'Alice-DataAdapt-',int2str(r),'.txt'))
         continue
     end
     %% read the recv raw packets 
@@ -95,7 +96,7 @@ for r = 0:10
     freq_exact = dlmread(strcat(folder_name, freq_name3));
     SNR_phone = dlmread(strcat(folder_name, 'Bob-SNRs-',int2str(r),'.txt'));
 
-    if(freq_send(1) == -1 || freq_send(2) == -1 ||  freq_send(2) == freq_send(1))
+    if(freq_send(1) == -1 || freq_send(2) == -1 ||  freq_send(2) == freq_send(1) || abs(freq_est(2) -freq_send(2)) > 100 || abs(freq_est(1) -freq_send(1)) > 100 )
         disp(strcat('error frequenct and FSK in Packet:', int2str(r)))
         continue;
     end
@@ -132,10 +133,7 @@ for r = 0:10
     pilots = 1;
     locs = find_chirp(dat,preamble,fs,r,visual_debug);
     
-%         figure
-%         hold on
-%         plot(dat)
-%         plot([locs, locs], [-1, 1])
+
     
     idx=locs+1;
     filter_order = 96;
@@ -166,7 +164,7 @@ for r = 0:10
         figure
         hold on
         plot(block_fir(1: pkg_idx + 1000))
-        plot(sending_signal(1+offset: gt_idx + offset+1000 )/5, 'r--')
+        plot(sending_signal(1+offset: gt_idx + offset+1000 )/20, 'r--')
     end
 
     % time equalizer coding
@@ -199,7 +197,6 @@ for r = 0:10
         rx = block(pkg_idx-fre_offset: pkg_idx-fre_offset + Ns - 1);
         gt = sending_signal(gt_idx: gt_idx + Ns - 1);  
         
-
         rx_fft = fft(rx);
         gt_fft = fft(gt);
 
@@ -255,15 +252,9 @@ for r = 0:10
                     plot(training_tx)
                     subplot(212)
                     plot(training_rx)
-%                     figure
-%                     subplot(211)
-%                     plot(preamble_tx)
-%                     subplot(212)
-%                     plot(preamble_rx)
+
                     figure
                     plot(g)
-%                     hold on
-%                     plot(g2, '--')
                 end
                 
                 for t = 1:size(training_rx, 2)
@@ -319,7 +310,14 @@ for r = 0:10
 
     if(visual_debug)
         signal_level = mean(abs(spect_rx), 2);
-        figure(r+100)
+%         figure
+%         hold on
+%         for i = 1:size(spect_rx, 2)
+%             plot(f_seq, mag2db(abs(spect_rx(:, i))))
+%         end
+%         xlim([1000 5000])
+
+        figure(r+1000)
         hold on
         plot(f_seq(1000/inc+1:4000/inc), SNR_phone)
         plot([f_range(1), f_range(1) ], [-10, 10], 'r--')

@@ -11,11 +11,10 @@ function [new_locs] = find_chirp(dat,preamble, fs, r, visual_debug)
     block_fir = y_after_fir(delay_fir:end);
     filt = block_fir;
     
-    offset=12e3;
+    offset=10e3;
     filt=filt(offset:end);
     
     [acor,lag]=xcorr(filt,preamble);
-    
 
     threshold = 1;
 
@@ -30,12 +29,13 @@ function [new_locs] = find_chirp(dat,preamble, fs, r, visual_debug)
     locs=locs(1:min(10,length(locs)));
     pks=acor(locs);
     
+
     [locs,idx]=sort(locs);
     pks=pks(idx);
     
     win_size = 2000;
-    max_p = 100; %130 5 - 87;
-    threshold = 0.5;
+    max_p = 130; %130 5 - 87;
+    threshold = 0.6;
     mets=[];
     locs2=[];
     pks2=[];
@@ -77,7 +77,7 @@ function [new_locs] = find_chirp(dat,preamble, fs, r, visual_debug)
    
     %% fine sync use channel estimation
     seek_back = 960;
-    p_threshold = 0.5;
+    p_threshold = 0.4;
    
     new_locs1 = seekback(acor, seek_back, acor(locs2(1)), locs2(1), p_threshold);
     offset2 = 300;
@@ -106,7 +106,7 @@ function [new_locs] = find_chirp(dat,preamble, fs, r, visual_debug)
 %     figure
 %     plot(abs(h))
 
-    [ h, path1, path1_new, noise_level] = channe_look_back( h, 0.38, 5, 0);
+    [ h, path1, path1_new, noise_level] = channe_look_back( h, 0.4, 5, 0);
     
     if(visual_debug)
         figure
@@ -114,15 +114,23 @@ function [new_locs] = find_chirp(dat,preamble, fs, r, visual_debug)
         hold on
         plot(acor)
         scatter(locs2,acor(locs2));
+        scatter(new_locs1,acor(new_locs1), 'gx');
         title(int2str(r))
         subplot(212)
         plot(h)
         hold on
-        %yline(noise_level)
+        yline(noise_level)
         scatter(path1, h(path1), 'rx')
         scatter(path1_new, h(path1_new), 'g^')
     end
 
     new_locs = lag(new_locs1)-offset2+path1_new+offset;
+
+    if(visual_debug)
+        figure
+        hold on
+        plot(block_fir)
+        plot([new_locs, new_locs], [-1, 1])
+    end
 
 end
