@@ -62,7 +62,7 @@ def move_files(folder, pair_index):
         shutil.copy(folder2+'/Bob-Sounding-' + str(Bob_index)+'-0-bottom.txt', folder+'/sync_file/Bob-Sounding-' + str(i)+'-bottom.txt')
 
 
-folder = 'Air_data20/4800'
+folder = 'Air_data21'
 sounding_time = read_timstamp(folder + '/alice/Alice-Sounding-log.txt')
 data_time = read_timstamp(folder + '/alice/Alice-Data-log.txt')
 feedback_time = read_timstamp(folder + '/bob/Bob-Feedback-log.txt')
@@ -109,9 +109,9 @@ for i in range(0, len(feedback_time)):
         min_offset = feedback_time[i] - data_time[0]
 
 
-min_pair = []
-for i in range(0, 10):
-    min_pair.append([i, i])
+#min_pair = []
+#for i in range(0, 10):
+#    min_pair.append([i, i])
 
 
 print(min_pair)

@@ -21,7 +21,7 @@ end
 
 N0 = 240;
 
-folder_name = strcat('../Air_data15');
+folder_name = strcat('../Air_data21');
 preamble=dlmread('sending_signal/naiser_240.txt');
 
 sounding_file = strcat(folder_name, '/alice/Alice-Sounding-0.txt');
@@ -98,10 +98,10 @@ new_loc = locs(1) - 1200 + begin_idx +240;
 idx2=new_loc+ length(preamble) + first_gap +CP;
 pilot_symbol2 = dat(idx2+1-bias:idx2+N_pilot-bias);
 
-% figure
-% hold on
-% plot(pilot_symbol)
-% plot(pilot_symbol2)
+figure
+hold on
+plot(pilot_symbol)
+plot(pilot_symbol2)
 
 % figure
 % plot(preamble)
@@ -178,6 +178,7 @@ mean_gt_level = mean(abs(pilot_gts), 2);
 snr_bins = snr_calculate(pilot_spectrums, pilot_gts, valid_carrier, f_seq, 0)';
 snr_bins2 = snr_calculate(pilot_spectrums2, pilot_gts, valid_carrier, f_seq, 0)';
 
+[f_begin, f_end, data_rate] = fre_bin_select(recv_SNR, 14, f_seq(valid_carrier), 1,fs,0.7);
 [f_begin, f_end, data_rate] = fre_bin_select(snr_bins, 12, f_seq(valid_carrier), 1,fs,0.7);
 [f_begin, f_end, data_rate] = fre_bin_select(snr_bins2, 12, f_seq(valid_carrier), 1,fs,0.7);
 
