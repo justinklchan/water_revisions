@@ -7,7 +7,7 @@ fs=48e3;
 Gi=0;
 inc=fs/Ns;
 f_range = [1000, 4000]; %6000
-exp_num = 3;
+exp_num = 5;
 
 if Ns==480
     Ncs=34;
@@ -21,7 +21,7 @@ end
 
 N0 = 240;
 
-folder_name = strcat('../Air_data21');
+folder_name = strcat('../water');
 preamble=dlmread('sending_signal/naiser_240.txt');
 
 sounding_file = strcat(folder_name, '/alice/Alice-Sounding-0.txt');
@@ -149,9 +149,9 @@ for i = 1:7
     
     each_fft = fft(each_pilot);
     each_fft2 = fft(each_pilot2);
-%     figure(34)
-%     hold on
-%     plot(f_seq, abs(each_fft))
+    figure(34)
+    hold on
+    plot(f_seq, abs(each_fft))
 %     figure(35)
 %     hold on
 %     plot(each_pilot)
@@ -160,9 +160,11 @@ for i = 1:7
 %     plot(each_pilot)
 
     each_gt = fft(pilot_gt);
-    pilot_spectrums = [pilot_spectrums, each_fft];
-    pilot_spectrums2 = [pilot_spectrums2, each_fft2];
-    pilot_gts = [pilot_gts, each_gt];
+    if(i >= 2 && i <= 7)
+        pilot_spectrums = [pilot_spectrums, each_fft];
+        pilot_spectrums2 = [pilot_spectrums2, each_fft2];
+        pilot_gts = [pilot_gts, each_gt];
+    end
 end
 
 mean_signal_level = mean(abs(pilot_spectrums), 2);   
@@ -178,7 +180,9 @@ mean_gt_level = mean(abs(pilot_gts), 2);
 snr_bins = snr_calculate(pilot_spectrums, pilot_gts, valid_carrier, f_seq, 0)';
 snr_bins2 = snr_calculate(pilot_spectrums2, pilot_gts, valid_carrier, f_seq, 0)';
 
-[f_begin, f_end, data_rate] = fre_bin_select(recv_SNR, 14, f_seq(valid_carrier), 1,fs,0.7);
+
+[f_begin, f_end, data_rate] = fre_bin_select(recv_SNR, 12, f_seq(valid_carrier), 1,fs,0.7);
+
 [f_begin, f_end, data_rate] = fre_bin_select(snr_bins, 12, f_seq(valid_carrier), 1,fs,0.7);
 [f_begin, f_end, data_rate] = fre_bin_select(snr_bins2, 12, f_seq(valid_carrier), 1,fs,0.7);
 

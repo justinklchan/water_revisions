@@ -19,13 +19,17 @@ end
 CP = Ncs;
 sym_len=Ns+Ncs; %length of symbol
 first_gap = 960; % zero interval between preamble and OFDM symbol
-tap_num = 480;%round(Ns*2/3); % length of equalizer 360
+
+tap_num = 360;%round(Ns*2/3); % length of equalizer 360
+
 
 offset = 20 ; % 5m -120 10m -180
 fre_offset = 20;
     
 % read the raw data
-save_name = strcat('../Air_data21');
+
+save_name = strcat('../water/depth2_1');
+
 folder_name = strcat(save_name,'/sync_file/');  % exp_lake
 
 % read the preamble
@@ -58,8 +62,9 @@ encode_data_gt0  =dlmread(strcat('sending_signal/encode_data_', int2str(code_rat
 % sending data before encoding
 uncode_data_gt0  =dlmread(strcat('sending_signal/uncode_data_', int2str(code_rate(1)), '_', int2str(code_rate(2)), '.txt'));
 
-visual_debug = 1;
-for r = 3
+
+visual_debug = 0;
+for r = 2
     r
     if(~exist(strcat(folder_name, 'Alice-DataAdapt-',int2str(r),'.txt'), 'file'))
         disp(strcat('No such file!:  ', folder_name, 'Alice-DataAdapt-',int2str(r),'.txt'))
